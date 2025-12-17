@@ -1,87 +1,83 @@
-# Welcome to React Router!
+# Conveo Mini – AI Interview Insight Demo
 
-A modern, production-ready template for building full-stack React applications using React Router.
+Conveo Mini is a small demo inspired by Conveo’s AI-led research platform. It showcases a production-style React Router v7 + TypeScript + Tailwind app that turns interview snippets into structured insights using the OpenAI API.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## Tech stack
 
-## Features
+- React Router framework v7 (file-based routes via `app/routes.ts`)  
+- TypeScript  
+- Tailwind CSS v3  
+- Vite (via React Router dev tooling)  
+- OpenAI JavaScript SDK (client-side, user-provided API key)  
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## Core features implemented
 
-## Getting Started
+### 1. Study selection
 
-### Installation
+- Landing page listing a few predefined “studies” (e.g., checkout experience, B2B onboarding).  
+- Each study has a title, description, and target persona.  
+- Clicking “Open study” navigates to `/studies/:id` using React Router’s framework routing.
 
-Install the dependencies:
+### 2. User-provided OpenAI API key
+
+- Setup panel on the home page where users paste their own OpenAI key.  
+- Key is validated in the browser via a lightweight OpenAI request.  
+- Valid keys are cached in `localStorage` under `conveo-openai-key`, so returning users do not have to re-enter it.  
+- The key is used only from the browser; it is not stored on or logged by any server.
+
+### 3. AI-powered insights (per study)
+
+- Study detail page at `/studies/:id`.  
+- Users paste an interview snippet for the selected study/persona.  
+- On “Generate insights”, the app calls OpenAI’s Chat Completions API to:  
+  - Summarize the snippet in two sentences.  
+  - Extract three key themes or insights.  
+- The response is parsed as JSON and rendered as a short summary plus bullet-point themes.
+
+## Security and privacy notes
+
+- This is a portfolio/demo project, not a production system.  
+- The OpenAI API key is provided by the user and stored only in the browser (localStorage).  
+- All OpenAI calls are made from the client using that key.  
+- For a real production application, keys should be kept server-side with proper secret management, rate limiting, and abuse protection.
+
+## Project structure (high level)
+
+- `app/root.tsx` – app shell, layout, error boundary, Tailwind import.  
+- `app/routes.ts` – central route config for the React Router framework.  
+- `app/routes/home.tsx` – home page with API key setup and study list.  
+- `app/routes/studies.$id.tsx` – study detail screen and AI insight generation.  
+- `app/data/studies.ts` – in-memory study definitions.  
+- `app/hooks/useLocalStorage.ts` – small hook for localStorage-backed state.  
+- `app/lib/openai-client.ts` – helper for creating a browser OpenAI client and validating keys.  
+- `app/app.css` – Tailwind entrypoint and global styles.  
+
+## What is left / future scope
+
+These are logical next steps if the project is extended:
+
+- Add persistent storage for studies and insights (PostgreSQL) and show history per study.  
+- Add input validation, character limits, and basic rate limiting on insight generation.  
+- Introduce a richer UI component library (e.g., shadcn/ui) to better match Conveo’s stack.  
+- Implement a small Node/server route to proxy OpenAI calls instead of calling from the browser (for stronger key security).  
+- Add tests for loaders/actions and key-handling logic.  
+- Deploy to Render with a production build and document deployment steps in this README.
+
+## Running locally
+
+1. Clone the repo and install dependencies:
 
 ```bash
 npm install
 ```
 
-### Development
-
-Start the development server with HMR:
+2. Start dev server:
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+3. Open the app at the printed localhost URL, paste an OpenAI API key on the home page, and start generating insights from interview snippets.
 
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+## Deployment 
+To be continued...
