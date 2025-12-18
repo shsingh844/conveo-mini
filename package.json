@@ -5,7 +5,7 @@
   "scripts": {
   "dev": "dotenv -e .env.local -- react-router dev",
   "build": "react-router build",
-  "start": "react-router start",
+  "start": "node ./build/server/index.js",
   "test": "react-router test"
   },
   "dependencies": {
