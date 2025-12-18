@@ -34,6 +34,16 @@ Conveo Mini is a small demo inspired by Conveo’s AI-led research platform. It 
   - Extract three key themes or insights.  
 - The response is parsed as JSON and rendered as a short summary plus bullet-point themes.
 
+### 4. Prompt engineering
+
+This demo intentionally explores multiple prompt strategies for the same UX research task:
+
+- Default prompt: Direct, compact template for quick interview summarization and theme extraction.
+- Researcher-grade prompt: Longer, structured template that frames insights as decision-ready opportunities and risks for PMs and UX teams.
+- Step-by-step prompt: A two-step template that first asks the model to reason in observations, then derive themes, to encourage more faithful and structured outputs.
+
+These prompt modes are selectable in the UI, so you can see how different templates change summaries and themes for the same interview snippet.
+
 ## Security and privacy notes
 
 - This is a portfolio/demo project, not a production system.  
@@ -51,6 +61,7 @@ Conveo Mini is a small demo inspired by Conveo’s AI-led research platform. It 
 - `app/hooks/useLocalStorage.ts` – small hook for localStorage-backed state.  
 - `app/lib/openai-client.ts` – helper for creating a browser OpenAI client and validating keys.  
 - `app/app.css` – Tailwind entrypoint and global styles.  
+- `app/lib/openai-client.ts` - helper for creating a browser OpenAI client, validating keys, and building prompt templates.
 
 ## What is left / future scope
 
@@ -61,7 +72,15 @@ These are logical next steps if the project is extended:
 - Introduce a richer UI component library (e.g., shadcn/ui) to better match Conveo’s stack.  
 - Implement a small Node/server route to proxy OpenAI calls instead of calling from the browser (for stronger key security).  
 - Add tests for loaders/actions and key-handling logic.  
-- Deploy to Render with a production build and document deployment steps in this README.
+
+### Fine-tune readiness
+
+Although this project currently uses prompt engineering only (no fine-tuning), the design is intentionally fine-tune-ready:
+
+- Each generation run could log: the study, persona, raw snippet, selected prompt mode, AI-generated summary and themes, and a human researcher score.
+- That dataset could later be used to fine-tune an LLM specifically on Conveo-style interview data, improving consistency and domain alignment beyond what prompts alone can do.
+
+This makes it straightforward to evolve the demo from a prompt-only prototype into a fine-tuned, production-grade model if needed.
 
 ## Running locally
 
